@@ -1,40 +1,7 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Bookito" parent="Theme.Material3.DayNight">
-        <!-- Primary brand color. -->
-        <!--
-                <item name="colorPrimary">@color/green_primary_dark</item>
-                <item name="colorPrimaryVariant">@color/green_primary</item>
-                <item name="android:colorPrimaryDark">@color/green_primary</item>
-        -->
-
-        <!--
-                <item name="colorOnPrimary">@color/black</item>
-        -->
-        <!-- Secondary brand color. -->
-<!--
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
--->
-        <!-- Status bar color. -->
-<!--
-        <item name="android:statusBarColor">@color/green_primary_dark</item>
--->
-        <!-- Customize your theme here. -->
-
-        <!--        <item name="colorPrimary">#0336ff</item>
-                <item name="colorOnPrimary">#ffffff</item>
-                <item name="colorPrimaryVariant">#0035c9</item>
-
-                <item name="colorSecondary">#ffde03</item>
-                <item name="colorOnSecondary">#000000</item>
-                <item name="colorSecondaryVariant">#ffc000</item>
-
-                <item name="colorSurface">#ffffff</item>
-                <item name="colorOnSurface">#000000</item>
-                <item name="colorError">#b00020</item>-->
-
+    <style name="Theme.Bookito" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorControlNormal">@color/black</item>
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
@@ -61,6 +28,56 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+    </style>
 
+    <style name="img_logo">
+        <item name="android:src">@drawable/img_light_logo</item>
+    </style>
+
+    <style name="img_background">
+        <item name="android:background">@drawable/bg_light_main</item>
+    </style>
+
+    <style name="img_background_chat">
+        <item name="android:background">@drawable/bg_light_chat</item>
+    </style>
+
+    <style name="img_background_login">
+        <item name="android:background">@drawable/bg_light_login</item>
+    </style>
+
+    <style name="color_card">
+        <item name="android:backgroundTint">@color/light_card</item>
+    </style>
+
+    <style name="filter_bar">
+        <item name="android:background">@color/light_filter_bar</item>
+    </style>
+
+    <style name="filter_text">
+        <item name="android:textColor">@color/md_theme_light_secondaryContainer</item>
+    </style>
+
+    <style name="selected_filter_text">
+        <item name="android:textColor">@color/md_theme_light_primary</item>
+    </style>
+
+    <style name="arrow_request_accepted_color">
+        <item name="android:tint">@color/md_theme_light_primary</item>
+    </style>
+
+    <style name="buttonAccept">
+        <item name="android:backgroundTint">#778a35</item>
+        <item name="android:textColor">#d1dda6</item>
+    </style>
+
+    <style name="buttonRefuse">
+        <item name="android:backgroundTint">#A4413A</item>
+        <item name="android:textColor">@color/md_theme_light_errorContainer</item>
+    </style>
+
+    <style name="ButtonDisabled" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:background">@style/buttonRefuse</item>
+        <item name="android:alpha">0.05</item>
     </style>
 </resources>

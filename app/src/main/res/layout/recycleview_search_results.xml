@@ -1,76 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    style="@style/color_card"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/book_thumbnail"
-            android:layout_width="130dp"
-            android:layout_height="160dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/book_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@id/book_thumbnail"
-            android:padding="3dp"
-            android:text="Book Title"
-            android:lines="3"
-            android:textSize="12sp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/book_author"
-            android:layout_width="match_parent"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_type"
+                        style="@style/color_card"
+                        android:layout_width="35dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:cardCornerRadius="6dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/thumbnail"
+                        app:layout_constraintStart_toStartOf="@+id/thumbnail">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/icon_type"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:contentDescription="@string/type_of_the_request"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintDimensionRatio="h,1:1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.0"
+                                tools:ignore="ImageContrastCheck"
+                                tools:scaleType="fitXY"
+                                tools:srcCompat="@drawable/calendar" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/thumbnail"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:contentDescription="@string/book_1_thumbnail"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="h,1:1.45"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ImageContrastCheck"
+                        tools:srcCompat="@tools:sample/avatars" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/book_title"
-            android:layout_marginTop="3dp"
-            android:layout_toEndOf="@id/book_thumbnail"
-            android:padding="3dp"
-            android:text="Author"
-            android:lines="1"
-            android:textStyle="italic"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/book_owner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/book_author"
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@id/book_thumbnail"
-            android:padding="3dp"
-            android:text="Owner"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/book_owner"
-            android:layout_marginTop="3dp"
-            android:layout_toEndOf="@id/book_thumbnail"
-            android:padding="3dp"
-            android:text="Type"
-            android:textSize="12sp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/book_thumbnail"
+            app:layout_constraintTop_toTopOf="parent">
 
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/book_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_vertical"
+                android:lines="3"
+                android:padding="3dp"
+                tools:text="Book Title"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/book_author"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:lines="1"
+                android:padding="3dp"
+                tools:text="Author"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="@+id/book_title"
+                app:layout_constraintStart_toStartOf="@+id/book_title"
+                app:layout_constraintTop_toBottomOf="@id/book_title" />
+
+            <TextView
+                android:id="@+id/book_owner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/book_author"
+                android:layout_marginTop="4dp"
+                android:padding="3dp"
+                tools:text="Owner"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/book_title"
+                app:layout_constraintStart_toStartOf="@+id/book_author"
+                app:layout_constraintTop_toBottomOf="@id/book_author" />
+
+            <TextView
+                android:id="@+id/neighborhood_owner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/book_owner"
+                android:padding="3dp"
+                tools:text="neighborhood"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/book_title"
+                app:layout_constraintStart_toStartOf="@+id/book_owner"
+                app:layout_constraintTop_toBottomOf="@id/book_owner" />
+
+
+            <!--TextView
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/neighborhood_owner"
+                android:layout_marginTop="0dp"
+                android:layout_toEndOf="@id/book_thumbnail"
+                android:padding="3dp"
+                android:text="Type"
+                android:textColor="@color/green"
+                android:textSize="12sp"
+                tools:layout_marginTop="4dp" /-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

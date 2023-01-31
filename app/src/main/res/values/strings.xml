@@ -1,20 +1,59 @@
 <resources>
-    <string name="app_name">Bookito!</string>
-    <string name="title_add">Add</string>
-    <string name="title_inbox">Inbox</string>
-    <string name="title_search">Search</string>
-    <string name="title_library">Library</string>
+    <string name="app_name">Bookito</string>
+    <string name="title_add">Aggiungi libro</string>
+    <string name="title_inbox">Richieste</string>
+    <string name="title_search">Cerca libri</string>
+    <string name="title_library">Libreria</string>
     <string name="cerca_libri">Cerca libri</string>
     <string name="libro_trovato">Inserisci libro</string>
-    <string name="lorem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris condimentum congue odio, vitae maximus lectus luctus vel. Nulla blandit orci eu lacinia lacinia. Morbi luctus odio nisl, a consequat nibh sollicitudin eget. Donec cursus tristique leo ac sodales. Donec augue mi, elementum vel neque nec, eleifend dapibus ipsum. Nulla et sem ac massa commodo tristique sed pretium nunc. Fusce vel dictum dolor, in interdum nunc. Cras id purus malesuada purus pretium congue id nec diam. Fusce feugiat mauris massa. Suspendisse efficitur pretium mi eu aliquam. Vestibulum vel enim sit amet orci venenatis tempor sit amet ac mauris. Morbi nulla velit, vulputate eu quam vitae, ornare laoreet mauris. Praesent porta sollicitudin ligula ut accumsan.</string>
+    <string name="lorem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris condimentum congue odio, vitae maximus lectus luctus vel. Nulla blandit orci eu lacinia. Morbi luctus odio nisl, a consequat nibh sollicitudin eget. Donec cursus tristique leo ac sodales. Donec augue mi, elementum vel neque nec, eleifend dapibus ipsum. Nulla et sem ac massa commodo tristique sed pretium nunc. Fusce vel dictum dolor, in interdum nunc. Cras id purus malesuada purus pretium congue id nec diam. Fusce feugiat mauris massa. Suspendisse efficitur pretium mi eu aliquam. Vestibulum vel enim sit amet orci venenatis tempor sit amet ac mauris. Morbi nulla velit, vulputate eu quam vitae, ornare laoreet mauris. Praesent porta sollicitudin ligula ut accumsan.</string>
     <string name="informazioni_libro">Informazioni libro</string>
     <string name="elimina">Elimina</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="titolo_del_libro">Titolo del libro …</string>
+    <string name="logout">Logout</string>
+    <string name="profile">Profile</string>
+    <string name="vedi_profilo">Vedi profilo</string>
+    <string name="disconnetti">Disconnetti</string>
+    <string name="user_location">%1$s (%2$s)</string>
+
+    <string-array name="quartieri">
+        <item>Venezia</item>
+        <item>Mestre</item>
+        <item>Campalto</item>
+        <item>Favaro</item>
+        <item>Marghera</item>
+    </string-array>
+
     <string-array name="azioni_libro">
         <item>Regalo</item>
         <item>Prestito</item>
         <item>Scambio</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="vedi_notifiche">Vedi notifiche</string>
+    <string name="numero_di_telefono">Numero di telefono</string>
+    <string name="accedi">Accedi</string>
+    <string name="non_sei_ancora_registrato">Non sei ancora registrato?</string>
+    <string name="crea_utente">Crea utente!</string>
+    <string name="bookito_logo">bookito_logo</string>
+    <string name="emptyLibrary">La tua libreria è vuota…\nPremi il pulsante qui sotto per cominciare ad aggiungere libri!</string>
+    <string name="nome_utente">Nome Utente</string>
+    <string name="user_name">Mario</string>
+    <string name="user_lastName">Rossi</string>
+    <string name="user_telephone">333 123 4567</string>
+    <string name="user_township">Venezia</string>
+    <string name="user_city">Mestre</string>
+    <string name="ricevute">Ricevute</string>
+    <string name="inviate">Inviate</string>
+    <string name="accettate">Accettate</string>
+    <string name="you">TU</string>
+    <string name="book_1_thumbnail">book 1 thumbnail</string>
+    <string name="book_2_thumbnail">book 2 thumbnail</string>
+    <string name="user_1_profile_picture">user 1 profile picture</string>
+    <string name="user_2_profile_picture">user 2 profile picture</string>
+    <string name="type_of_the_request">type of the request</string>
+    <string name="left_to_right_arrow">left to right arrow</string>
+    <string name="right_to_left_arrow">right to left arrow</string>
+    <string name="wait_icon">wait icon</string>
 </resources>

@@ -1,10 +1,11 @@
 package com.zerobudget.bookito.ui.library;
 
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,94 +13,100 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.zerobudget.bookito.R;
 import com.zerobudget.bookito.databinding.FragmentLibraryBinding;
+import com.zerobudget.bookito.models.book.BookModel;
+import com.zerobudget.bookito.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class LibraryFragment extends Fragment {
 
     private FragmentLibraryBinding binding;
-    private ArrayList<BookModel> bookModels;
-
     private FirebaseFirestore db;
-    private FirebaseAuth mAuth;
-
-    public void setUpBookModel(){
-        bookModels = new ArrayList<>();
-        //TODO: in attesa dell'autenticazione dell'utente qusto resta commentato
-        //if (currentUser != null) {
-        //   String id = currentUser.getUid();
-        binding.progressBar.setVisibility(View.VISIBLE);
-        db.collection("users").document("AZLYEN9WqTOVXiglkPJT").get()
-                .addOnCompleteListener(task -> {
-                    Log.d("QUERY", "queryyy");
-                    if (task.isSuccessful()) {
-                        binding.progressBar.setVisibility(View.GONE);
-                        ArrayList<BookModel> arrBkm = new ArrayList<>();
-
-                        Object arr = task.getResult().get("books"); //array dei books
-                        if(arr != null) { //si assicura di cercare solo se esiste quache libro
-                            Iterator<Object> iterator = ((ArrayList<Object>) arr).iterator(); //cast ad array list per avere l'iteratore
-
-                            int i = 0;//contatore
-                            while (iterator.hasNext()) {
-                                Object o = ((ArrayList<Object>) arr).get(i); //cast ad array list per prendere il libro i
-                                HashMap<Object, Object> map = (HashMap<Object, Object>) o; // cast per prendere i dati del libro i
-                                Log.d("AAA", "" + map.get("title"));
-
-                                BookModel tmp = new BookModel((String) map.get("thumbnail"), (String) map.get("isbn"), (String) map.get("title"), (String) map.get("author"), (String) map.get("description"), (String) map.get("type"));
-                                arrBkm.add(tmp);//aggiunge il bookmodel tmp all'array list
-
-                                iterator.next();
-                                i++;
-                            }
-
-                            addBooksOnLibrary(arrBkm); //visualizza il libro nella libreria
-                        }
-
-                    }
-                });
-        //}
-    }
-
-     protected void addBooksOnLibrary(ArrayList<BookModel> arr){
-        RecyclerView recyclerView = binding.recycleViewMyLibrary;
-
-        Book_RecycleViewAdapter adapter = new Book_RecycleViewAdapter(this.getContext(), arr);
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
-     }
+    private Book_RecycleViewAdapter adapter;
+    private final Rect scrollBounds = new Rect();
+    private ProgressBar spinner;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // LibraryViewModel libraryViewModel = new ViewModelProvider(this).get(LibraryViewModel.class);
-
         binding = FragmentLibraryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        RecyclerView recyclerView = binding.recycleViewMyLibrary;
+        spinner = binding.progressBar;
+
+        if (!binding.addBookButton.getLocalVisibleRect(scrollBounds))
+            binding.floatingActionButton.setVisibility(View.VISIBLE);
+
+        binding.nestedScrollView2.getHitRect(scrollBounds);
+
         db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
+        adapter = new Book_RecycleViewAdapter(this.getContext(), (ArrayList<BookModel>) Utils.CURRENT_USER.getBooks(), binding.emptyLibrary);
 
-
-        setUpBookModel();
-        //visulizzazione spostata in addBookOnLibrary()
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
+        // getLibraryRealtime();
+        getBooksFromDB();
 
         binding.floatingActionButton.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_navigation_library_to_navigation_insertNew));
+        binding.addBookButton.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_navigation_library_to_navigation_insertNew));
 
+        //permette di ricaricare la pagina con lo swipe verso il basso
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+            binding.swipeRefreshLayout.setRefreshing(false);
+            // getLibraryRealtime();
+            getBooksFromDB();
+        });
 
+        binding.nestedScrollView2.setOnScrollChangeListener((View.OnScrollChangeListener) (view, i, i1, i2, i3) -> {
+            if (i1 > i3) {
+                binding.floatingActionButton.hide();
+            } else {
+                if (!binding.addBookButton.getLocalVisibleRect(scrollBounds))
+                    binding.floatingActionButton.show();
+            }
+        });
 
         return root;
+    }
+
+    /**
+     * preleva i liri dell'utente corrente dal database
+     */
+    public void getBooksFromDB() {
+        db.collection("users").document(Utils.USER_ID)
+                .get().addOnSuccessListener(documentSnapshot -> {
+                    loadLibrary(documentSnapshot.get("books"));
+                });
+    }
+
+    /**
+     * carica la libreria dell'utente
+     *
+     * @param books: i libri prelevati dal database
+     */
+    private void loadLibrary(Object books) {
+        spinner.setVisibility(View.VISIBLE);
+        Utils.CURRENT_USER.getBooks().clear();
+        for (Object o : (ArrayList<Object>) books) {
+            HashMap<String, Object> map = (HashMap<String, Object>) o;
+            BookModel tmp = new BookModel((String) map.get("thumbnail"), (String) map.get("isbn"), (String) map.get("title"), (String) map.get("author"), (String) map.get("description"), (String) map.get("type"), (boolean) map.get("status"));
+            Utils.CURRENT_USER.getBooks().add(tmp);//aggiunge il bookmodel tmp all'array list
+        }
+        spinner.setVisibility(View.GONE);
+        adapter.notifyDataSetChanged();
+
+        Utils.toggleEmptyWarning(binding.emptyLibrary, Utils.CURRENT_USER.getBooks().size());
+        if (!binding.addBookButton.getLocalVisibleRect(scrollBounds)) {
+            binding.floatingActionButton.show();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 }

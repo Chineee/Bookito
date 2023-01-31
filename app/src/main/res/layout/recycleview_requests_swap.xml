@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        style="@style/color_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/request"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+            <ImageView
+                style="@style/book_thumbnail"
+                android:id="@+id/book1_thumbnail"
+                android:contentDescription="@string/book_1_thumbnail"
+                android:foreground="@drawable/text_overlay"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/book1_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:maxLines="4"
+                android:textColor="@color/md_theme_dark_inverseSurface"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/book1_thumbnail"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="SmallSp"
+                tools:text="@string/lorem_ipsum_long" />
+
+            <TextView
+                android:id="@+id/user1_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/user1_card"
+                app:layout_constraintEnd_toEndOf="@+id/user1_card"
+                app:layout_constraintStart_toStartOf="@+id/user1_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Mittente" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/user1_card"
+                android:layout_width="45dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/book1_thumbnail"
+                app:layout_constraintTop_toBottomOf="@+id/user1_name">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/user1_propic"
+                        style="@style/profile_picture"
+                        android:contentDescription="@string/user_1_profile_picture"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@tools:sample/avatars"
+                        tools:visibility="visible" />
+
+                    <com.lelloman.identicon.view.ClassicIdenticonView
+                        android:id="@+id/user1_gravatar"
+                        style="@style/hash_picture"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/user2_card"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/user1_card"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/book2_thumbnail"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/user1_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/user2_propic"
+                        style="@style/profile_picture"
+                        android:contentDescription="@string/user_2_profile_picture"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ImageContrastCheck"
+                        tools:srcCompat="@tools:sample/avatars"
+                        tools:visibility="visible" />
+
+                    <com.lelloman.identicon.view.ClassicIdenticonView
+                        android:id="@+id/user2_gravatar"
+                        style="@style/hash_picture"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/user2_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/user1_name"
+                app:layout_constraintEnd_toEndOf="@+id/user2_card"
+                app:layout_constraintStart_toStartOf="@+id/user2_card"
+                app:layout_constraintTop_toTopOf="@+id/user1_name"
+                tools:text="Destinatario" />
+
+            <ImageView
+                style="@style/book_thumbnail"
+                android:id="@+id/book2_thumbnail"
+                android:contentDescription="@string/book_2_thumbnail"
+                android:foreground="@drawable/text_overlay"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/book2_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:maxLines="4"
+                android:textColor="@color/md_theme_dark_inverseSurface"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/book2_thumbnail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/book2_thumbnail"
+                tools:ignore="SmallSp"
+                tools:text="@string/lorem_ipsum_long" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                style="@style/arrow_request_accepted_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/left_to_right_arrow"
+                app:layout_constraintBottom_toBottomOf="@+id/user1_card"
+                app:layout_constraintEnd_toStartOf="@+id/book2_thumbnail"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/book1_thumbnail"
+                app:layout_constraintTop_toTopOf="@+id/user1_card"
+                app:layout_constraintVertical_bias=".25"
+                app:srcCompat="@drawable/ic_baseline_arrow_right_alt_24" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                style="@style/arrow_request_accepted_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/right_to_left_arrow"
+                android:rotationY="-180"
+                app:layout_constraintBottom_toBottomOf="@+id/user1_card"
+                app:layout_constraintEnd_toStartOf="@+id/book2_thumbnail"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/book1_thumbnail"
+                app:layout_constraintTop_toTopOf="@+id/user1_card"
+                app:layout_constraintVertical_bias=".75"
+                app:srcCompat="@drawable/ic_baseline_arrow_right_alt_24" />
+
+            <TextView
+                android:id="@+id/badge_new_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="25dp"
+                android:height="25dp"
+                android:background="@drawable/message_count"
+                android:textAlignment="center"
+                android:textColor="#FFF"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:shadowColor="@color/black"
+                android:shadowRadius="800"
+                android:layout_margin="8dp"
+                android:paddingTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="21"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

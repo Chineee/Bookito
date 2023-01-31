@@ -1,30 +1,34 @@
 package com.zerobudget.bookito.login;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.zerobudget.bookito.MainActivity;
+import com.zerobudget.bookito.R;
 import com.zerobudget.bookito.databinding.FragmentOtpConfirmBinding;
-import com.zerobudget.bookito.ui.users.UserModel;
+import com.zerobudget.bookito.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
@@ -33,15 +37,18 @@ public class OTPConfirmFragment extends Fragment {
     FragmentOtpConfirmBinding binding;
     FirebaseAuth mAuth;
     private String code;
-    Bundle bundle;
-
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-
+    private Bundle bundle;
+    private boolean isRegister;
+    FirebaseFirestore db;
+    private final PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         @Override
         public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
+            binding.otpConfirmButton.setEnabled(true);
+            binding.codeSentProgressBar.setVisibility(View.GONE);
+            binding.doneCheck.setVisibility(View.VISIBLE);
+
             code = s;
         }
 
@@ -53,6 +60,12 @@ public class OTPConfirmFragment extends Fragment {
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, e.toString());
+            if (isRegister) {
+                NavHostFragment.findNavController(OTPConfirmFragment.this).navigate(R.id.action_OTPConfirmFragment_to_registerFragment);
+            } else {
+                NavHostFragment.findNavController(OTPConfirmFragment.this).navigate(R.id.action_OTPConfirmFragment_to_loginFragment);
+            }
         }
 
     };
@@ -65,11 +78,13 @@ public class OTPConfirmFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         bundle = this.getArguments();
         mAuth = FirebaseAuth.getInstance();
-        binding = FragmentOtpConfirmBinding.inflate(inflater,container,false);
+        binding = FragmentOtpConfirmBinding.inflate(inflater, container, false);
+        isRegister = bundle.getBoolean("register");
         return binding.getRoot();
+
     }
 
     @Override
@@ -85,46 +100,71 @@ public class OTPConfirmFragment extends Fragment {
                         .setActivity(requireActivity())                 // Activity (for callback binding)
                         .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
                         .build();
+
         PhoneAuthProvider.verifyPhoneNumber(options);
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String userInput = binding.otpUser.getText().toString().trim();
-                if(userInput.isEmpty()){
-                    binding.otpUser.setError("Inserisci il codice OTP");
-                    binding.otpUser.requestFocus();
-                    return;
-                }
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(code,userInput);
-                signInWithPhoneCredential(credential);
+
+        binding.otpConfirmButton.setOnClickListener(view1 -> {
+            String userInput = binding.otpUser.getText().toString().trim();
+            if (userInput.isEmpty()) {
+                binding.otpUser.setError("Inserisci il codice OTP");
+                binding.otpUser.requestFocus();
+                return;
             }
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(code, userInput);
+            signInWithPhoneCredential(credential);
         });
+
     }
 
     private void signInWithPhoneCredential(PhoneAuthCredential credential) {
-        boolean isRegister = bundle.getBoolean("register");
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(requireActivity(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //TODO aggiungere l'informazione utente all'interno del DATABASE
-                        if(task.isSuccessful()){
+                .addOnCompleteListener(requireActivity(), task -> {
+                    //TODO aggiungere l'informazione utente all'interno del DATABASE
+                    if (task.isSuccessful()) {
+                        if (isRegister)
+                            addUserToDatabase();
+                        else {
                             Intent intent = new Intent(requireActivity(), MainActivity.class);
-                            if(isRegister)
-                                addUserToDatabase();
                             startActivity(intent);
                             requireActivity().finish();
-
+                            Utils.setUserId(mAuth.getCurrentUser().getUid());
                         }
                     }
                 });
     }
 
     private void addUserToDatabase() {
-        String first_name = bundle.getString("name");
-        String last_name = bundle.getString("surname");
+        String firstName = bundle.getString("name");
+        String lastName = bundle.getString("surname");
         String phone = bundle.getString("phone_number");
-        String neighbourhood = bundle.getString("zone");
-        UserModel user = new UserModel(first_name,last_name,phone,neighbourhood,new HashMap<String,Object>());
+        //String neighborhood = bundle.getString("zone");
+        String township = bundle.getString("township");
+        String city = bundle.getString("city");
+
+        HashMap<String, Object> user = new HashMap<>();
+        HashMap<String, Object> karma = new HashMap<>();
+        karma.put("points", 0L);
+        karma.put("numbers", 0L);
+        user.put("firstName", firstName);
+        user.put("lastName", lastName);
+        user.put("telephone", phone);
+        user.put("karma", karma);
+        user.put("township", township);
+        user.put("city", city);
+
+        ArrayList<HashMap<String, Object>> books = new ArrayList<>();
+        user.put("books", books);
+        user.put("hasPicture", false);
+        db = FirebaseFirestore.getInstance();
+        db.collection("users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                .set(user)
+                .addOnCompleteListener(task -> {
+                    Toast.makeText(requireActivity(), "Account registrato con successo!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(requireActivity(), MainActivity.class);
+                    startActivity(intent);
+                    Utils.setUserId(mAuth.getCurrentUser().getUid());
+                    requireActivity().finish();
+                });
     }
+
 }
