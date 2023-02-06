@@ -1,4 +1,4 @@
-# Bookito! (free to share)
+# Bookito! "Free to Share"
 
 Bookito è un'applicazione android sviluppata nell'ambito di un progetto universitario dell'Università Ca' Foscari d Venezia dal team **0-budget**. Il progetto si colloca all'interno del corso di *Ingegneria del software* effettuato dal professore *Agostino Cortesi* nella laurea triennale di Informatica.
 
